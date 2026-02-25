@@ -551,8 +551,10 @@ function rowToProduct(r) {
   const tipo = inferTipo(r.SKU);
   const emoji = tipo === 'CAFE' ? '☕' : tipo === 'CAPSULA' ? '⚫' : '🫖';
   const unidad = tipo === 'CAFE' ? 'kg' : 'u';
-  let stockActual = parseFloat((r.Stock_Actual || '0').replace(',', '.')) || 0;
-  let stockMin    = parseFloat((r.Stock_Minimo  || '0').replace(',', '.')) || 0;
+  // Formato argentino: '17.799,0' → primero sacar punto de miles, luego coma→punto
+  const parseNum = s => parseFloat((s||'0').replace(/\./g,'').replace(',','.')) || 0;
+  let stockActual = parseNum(r.Stock_Actual);
+  let stockMin    = parseNum(r.Stock_Minimo);
   if (tipo === 'CAFE') { stockActual /= 1000; stockMin /= 1000; }
   const stockObj = Math.max(stockMin * 3, 0.01);
   const estado = parseEstado(r.Estado);
