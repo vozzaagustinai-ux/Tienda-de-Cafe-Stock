@@ -5,711 +5,703 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Stock · La Bolsa de Café</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* ── Variables ─────────────────────────────────────────── */
-  :root {
-    --espresso:   #1C0F0A;
-    --roast:      #3D1F14;
-    --mahogany:   #6B3728;
-    --caramel:    #C4813A;
-    --latte:      #E8C99A;
-    --cream:      #F7F0E6;
-    --milk:       #FDF9F4;
-    --ok:         #2E7D32;
-    --ok-bg:      #E8F5E9;
-    --low:        #E65100;
-    --low-bg:     #FFF3E0;
-    --crit:       #B71C1C;
-    --crit-bg:    #FFEBEE;
-    --crit-pulse: #EF5350;
-    --text:       #2A1810;
-    --muted:      #8D6E63;
-    --border:     #EDE0D4;
-    --radius:     14px;
-    --radius-sm:  8px;
-  }
+/* ── Variables ─────────────────────────────────────── */
+:root {
+  --bg:        #F5EFE6;
+  --surface:   #FDF9F4;
+  --border:    #E8DDD2;
+  --espresso:  #1A0F0A;
+  --roast:     #3B1F12;
+  --caramel:   #C07D3A;
+  --latte:     #D4B896;
+  --muted:     #8A7060;
+  --text:      #241208;
+  --ok:        #2E6B3A;
+  --ok-bg:     #EAF4EC;
+  --ok-bar:    #4CAF6A;
+  --low:       #B85C00;
+  --low-bg:    #FFF0E0;
+  --low-bar:   #F5871F;
+  --crit:      #A01515;
+  --crit-bg:   #FDEAEA;
+  --crit-bar:  #E53535;
+  --sidebar-w: 240px;
+  --header-h:  64px;
+}
 
-  /* ── Reset & Base ──────────────────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; -webkit-tap-highlight-color: transparent; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: env(safe-area-inset-bottom, 24px);
-  }
+/* ── Layout ────────────────────────────────────────── */
+.layout { display: flex; min-height: 100vh; }
 
-  /* ── Header ────────────────────────────────────────────── */
-  header {
-    background: var(--espresso);
-    padding: 20px 20px 24px;
-    padding-top: max(20px, env(safe-area-inset-top, 20px));
-    position: sticky; top: 0; z-index: 100;
-  }
-  .header-top {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 4px;
-  }
-  .brand {
-    display: flex; align-items: center; gap: 10px;
-  }
-  .brand-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: var(--caramel);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-  }
-  .brand-name {
-    font-family: 'DM Serif Display', serif;
-    font-size: 17px; color: var(--cream); letter-spacing: 0.01em;
-    line-height: 1.2;
-  }
-  .brand-sub {
-    font-size: 11px; color: var(--latte); font-weight: 300; letter-spacing: 0.04em;
-  }
-  .refresh-btn {
-    background: rgba(255,255,255,0.1); border: none; border-radius: 50%;
-    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background 0.2s;
-    color: var(--latte); font-size: 16px;
-  }
-  .refresh-btn:active { background: rgba(255,255,255,0.2); }
-  .refresh-btn.spinning svg { animation: spin 1s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* ── Sidebar ───────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--espresso);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; bottom: 0;
+  z-index: 200;
+  transition: transform 0.3s ease;
+}
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.logo-mark {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--caramel);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 12px;
+}
+.logo-name {
+  font-family: 'Fraunces', serif;
+  font-size: 15px; color: #fff;
+  line-height: 1.2; letter-spacing: 0.01em;
+}
+.logo-sub {
+  font-size: 10px; color: var(--latte);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-top: 2px;
+}
+.sidebar-nav { padding: 16px 12px; flex: 1; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 8px;
+  cursor: pointer; transition: background 0.15s;
+  font-size: 13px; color: rgba(255,255,255,0.55);
+  font-weight: 400; margin-bottom: 2px;
+  border: none; background: none; width: 100%; text-align: left;
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+.nav-item.active { background: rgba(255,255,255,0.1); color: #fff; font-weight: 500; }
+.nav-icon { font-size: 15px; width: 20px; text-align: center; }
+.sidebar-footer {
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.sync-status {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px; border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  font-size: 11px; color: rgba(255,255,255,0.45);
+}
+.sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--caramel); flex-shrink: 0; }
+.sync-dot.live { animation: blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.sync-text { flex: 1; line-height: 1.3; }
+.sync-refresh {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.3); font-size: 13px;
+  transition: color 0.2s; padding: 2px;
+}
+.sync-refresh:hover { color: rgba(255,255,255,0.7); }
+.sync-refresh.spinning { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  .header-meta {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 11px; color: var(--latte); font-weight: 300;
-  }
-  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--caramel); }
-  .dot.live { animation: pulse-dot 2s ease-in-out infinite; }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
-  }
+/* ── Main ──────────────────────────────────────────── */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column;
+}
 
-  /* ── Main Content ──────────────────────────────────────── */
-  main { padding: 16px; max-width: 480px; margin: 0 auto; }
+/* ── Top bar ───────────────────────────────────────── */
+.topbar {
+  height: var(--header-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  position: sticky; top: 0; z-index: 100;
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.page-title {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 300; color: var(--text);
+}
+.date-badge {
+  font-size: 12px; color: var(--muted);
+  background: var(--bg); border: 1px solid var(--border);
+  padding: 4px 10px; border-radius: 20px;
+}
+.topbar-right { display: flex; align-items: center; gap: 10px; }
 
-  /* ── Alert Banner ──────────────────────────────────────── */
-  .alerts-section { margin-bottom: 16px; }
-  .alert-banner {
-    border-radius: var(--radius); padding: 14px 16px;
-    margin-bottom: 8px; display: flex; align-items: flex-start; gap: 12px;
-    animation: slideIn 0.4s ease;
-  }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(-8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .alert-banner.critico {
-    background: var(--crit-bg);
-    border: 1.5px solid rgba(183,28,28,0.2);
-    box-shadow: 0 2px 12px rgba(183,28,28,0.08);
-  }
-  .alert-banner.bajo {
-    background: var(--low-bg);
-    border: 1.5px solid rgba(230,81,0,0.2);
-  }
-  .alert-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-  .alert-content { flex: 1; }
-  .alert-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
-  .alert-banner.critico .alert-title { color: var(--crit); }
-  .alert-banner.bajo .alert-title    { color: var(--low); }
-  .alert-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+/* Mobile menu btn */
+.menu-btn {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  font-size: 20px; color: var(--text); padding: 4px;
+}
 
-  /* ── Section Label ─────────────────────────────────────── */
-  .section-label {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--muted);
-    margin: 20px 0 10px; display: flex; align-items: center; gap: 8px;
-  }
-  .section-label::after {
-    content: ''; flex: 1; height: 1px; background: var(--border);
-  }
+/* ── Content ───────────────────────────────────────── */
+.content { padding: 24px 28px; }
 
-  /* ── Product Card ──────────────────────────────────────── */
-  .product-grid { display: flex; flex-direction: column; gap: 8px; }
+/* ── KPI Row ───────────────────────────────────────── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px; margin-bottom: 24px;
+}
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px;
+}
+.kpi-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.kpi-value {
+  font-family: 'Fraunces', serif;
+  font-size: 28px; font-weight: 300; line-height: 1;
+  color: var(--text);
+}
+.kpi-value.crit { color: var(--crit); }
+.kpi-value.ok   { color: var(--ok); }
+.kpi-sub { font-size: 11px; color: var(--muted); margin-top: 5px; }
 
-  .product-card {
-    background: var(--milk);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    transition: transform 0.15s;
-    animation: fadeUp 0.4s ease both;
-  }
-  .product-card:active { transform: scale(0.985); }
+/* ── Section header ─────────────────────────────────── */
+.section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: 16px; font-weight: 300; color: var(--text);
+}
 
-  .product-card.critico {
-    border-color: rgba(183,28,28,0.25);
-    background: #FFFAFA;
-  }
-  .product-card.bajo {
-    border-color: rgba(230,81,0,0.2);
-    background: #FFFDF8;
-  }
+/* ── Filter tabs ────────────────────────────────────── */
+.filter-tabs {
+  display: flex; gap: 6px;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 500; cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface); color: var(--muted);
+  transition: all 0.15s;
+}
+.tab:hover { border-color: var(--caramel); color: var(--caramel); }
+.tab.active {
+  background: var(--espresso); color: #fff;
+  border-color: var(--espresso);
+}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+/* ── Alerts strip ───────────────────────────────────── */
+.alerts-strip { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+.alert-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 10px;
+  animation: fadeIn 0.3s ease;
+}
+.alert-item.critico { background: var(--crit-bg); border: 1px solid rgba(160,21,21,0.15); }
+.alert-item.bajo    { background: var(--low-bg);  border: 1px solid rgba(184,92,0,0.15);  }
+.alert-emoji { font-size: 16px; }
+.alert-text { font-size: 13px; }
+.alert-text strong { font-weight: 600; }
+.alert-item.critico .alert-text { color: var(--crit); }
+.alert-item.bajo    .alert-text { color: var(--low);  }
 
-  .card-top {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .product-info { display: flex; align-items: center; gap: 10px; }
-  .product-emoji { font-size: 20px; }
-  .product-name { font-size: 14px; font-weight: 500; line-height: 1.2; }
-  .product-type { font-size: 11px; color: var(--muted); margin-top: 1px; }
+/* ── Inventory table ────────────────────────────────── */
+.inv-table {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+}
+.inv-row {
+  display: grid;
+  grid-template-columns: 1fr 130px 180px 90px;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+  animation: fadeIn 0.3s ease both;
+}
+.inv-row:last-child { border-bottom: none; }
+.inv-row:hover { background: var(--bg); }
+.inv-row.header {
+  padding: 10px 20px;
+  background: var(--bg);
+  animation: none;
+}
+.inv-row.header:hover { background: var(--bg); }
+.col-label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-  .stock-value { text-align: right; }
-  .stock-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px; line-height: 1; color: var(--roast);
-  }
-  .stock-num.critico { color: var(--crit); }
-  .stock-num.bajo    { color: var(--low); }
-  .stock-unit { font-size: 11px; color: var(--muted); margin-top: 2px; }
+/* Product info */
+.prod-info { display: flex; align-items: center; gap: 12px; }
+.prod-icon {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: var(--bg); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.prod-name { font-size: 14px; font-weight: 500; line-height: 1.2; }
+.prod-sku  { font-size: 11px; color: var(--muted); margin-top: 1px; }
 
-  /* Bar */
-  .bar-track {
-    height: 6px; background: var(--border); border-radius: 99px; overflow: hidden;
-  }
-  .bar-fill {
-    height: 100%; border-radius: 99px;
-    transition: width 0.8s cubic-bezier(.4,0,.2,1);
-  }
-  .bar-fill.ok     { background: linear-gradient(90deg, #388E3C, #66BB6A); }
-  .bar-fill.bajo   { background: linear-gradient(90deg, #E65100, #FFA726); }
-  .bar-fill.critico { background: linear-gradient(90deg, #B71C1C, #EF5350);
-    animation: bar-pulse 2s ease-in-out infinite; }
-  @keyframes bar-pulse {
-    0%, 100% { opacity: 1; } 50% { opacity: 0.6; }
-  }
+/* Stock value */
+.stock-val {
+  font-family: 'Fraunces', serif;
+  font-size: 18px; font-weight: 300;
+  text-align: right;
+}
+.stock-val .unit { font-size: 11px; color: var(--muted); font-family: 'DM Sans', sans-serif; margin-left: 2px; }
 
-  .card-footer {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-top: 8px;
-  }
-  .status-badge {
-    font-size: 10px; font-weight: 600; letter-spacing: 0.05em;
-    padding: 3px 8px; border-radius: 99px;
-  }
-  .status-badge.ok     { background: var(--ok-bg); color: var(--ok); }
-  .status-badge.bajo   { background: var(--low-bg); color: var(--low); }
-  .status-badge.critico { background: var(--crit-bg); color: var(--crit); }
+/* Bar */
+.bar-wrap { padding: 0 8px; }
+.bar-track {
+  height: 5px; background: var(--border); border-radius: 99px; overflow: hidden;
+}
+.bar-fill {
+  height: 100%; border-radius: 99px;
+  transition: width 0.8s cubic-bezier(.4,0,.2,1);
+}
+.bar-fill.ok     { background: var(--ok-bar); }
+.bar-fill.bajo   { background: var(--low-bar); }
+.bar-fill.critico {
+  background: var(--crit-bar);
+  animation: pulse-bar 2s ease-in-out infinite;
+}
+@keyframes pulse-bar { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
-  .min-label { font-size: 10px; color: var(--muted); }
+/* Badge */
+.badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.badge.ok     { background: var(--ok-bg);   color: var(--ok);   }
+.badge.bajo   { background: var(--low-bg);  color: var(--low);  }
+.badge.critico{ background: var(--crit-bg); color: var(--crit); }
 
-  /* ── Pedido Card ───────────────────────────────────────── */
-  .pedido-card {
-    background: var(--milk);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-bottom: 8px;
-    animation: fadeUp 0.4s ease both;
-  }
-  .pedido-header {
-    padding: 12px 16px;
-    background: var(--roast);
-    display: flex; align-items: center; justify-content: space-between;
-    cursor: pointer; user-select: none;
-  }
-  .pedido-header-left { display: flex; align-items: center; gap: 10px; }
-  .pedido-header-icon { font-size: 18px; }
-  .pedido-title { font-size: 14px; font-weight: 500; color: var(--cream); }
-  .pedido-subtitle { font-size: 11px; color: var(--latte); margin-top: 1px; }
-  .pedido-chevron {
-    font-size: 12px; color: var(--latte);
-    transition: transform 0.3s;
-  }
-  .pedido-card.open .pedido-chevron { transform: rotate(180deg); }
+/* ── Overlay ────────────────────────────────────────── */
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 150;
+}
+.overlay.show { display: block; }
 
-  .pedido-body {
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(.4,0,.2,1);
-  }
-  .pedido-card.open .pedido-body { max-height: 1000px; }
+/* ── Empty state ────────────────────────────────────── */
+.empty {
+  padding: 48px; text-align: center;
+  color: var(--muted); font-size: 13px;
+}
 
-  .pedido-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 16px; border-bottom: 1px solid var(--border);
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE — Mobile
+   ══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
   }
-  .pedido-row:last-child { border-bottom: none; }
-  .pedido-row-name { font-size: 13px; font-weight: 400; }
-  .pedido-row-qty {
-    font-size: 13px; font-weight: 600; color: var(--caramel);
-    text-align: right;
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.3);
   }
-  .pedido-row-detail { font-size: 11px; color: var(--muted); }
+  .main { margin-left: 0; }
+  .menu-btn { display: block; }
+  .topbar { padding: 0 16px; }
+  .page-title { font-size: 17px; }
+  .content { padding: 16px; }
+  .kpi-row { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .kpi-card { padding: 14px 12px; }
+  .kpi-value { font-size: 22px; }
+  .inv-row {
+    grid-template-columns: 1fr 80px;
+    grid-template-rows: auto auto;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  .inv-row.header { display: none; }
+  .col-stock { grid-column: 2; grid-row: 1; text-align: right; }
+  .col-bar   { grid-column: 1 / -1; grid-row: 2; padding: 0; }
+  .col-badge { display: none; }
+  .bar-track { height: 4px; }
+}
 
-  /* ── Last Update Footer ────────────────────────────────── */
-  .last-update {
-    text-align: center; font-size: 11px; color: var(--muted);
-    margin: 20px 0 8px; display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-
-  /* ── Loading State ─────────────────────────────────────── */
-  .loading-screen {
-    position: fixed; inset: 0; background: var(--cream);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 16px;
-    z-index: 999;
-  }
-  .loading-cup { font-size: 40px; animation: float 1.5s ease-in-out infinite; }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-8px); }
-  }
-  .loading-text { font-size: 14px; color: var(--muted); }
-  .loading-screen.hidden { display: none; }
-
-  /* ── Skeleton Loader ───────────────────────────────────── */
-  .skeleton {
-    background: linear-gradient(90deg, var(--border) 25%, #f3e9dd 50%, var(--border) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: 6px;
-  }
-  @keyframes shimmer { to { background-position: -200% 0; } }
-
-  /* ── Error Banner ──────────────────────────────────────── */
-  .error-banner {
-    background: #FFF3E0; border: 1px solid #FFB74D;
-    border-radius: var(--radius); padding: 14px 16px;
-    font-size: 13px; color: #E65100; text-align: center;
-    display: none;
-  }
-  .error-banner.show { display: block; }
-
-  /* ── Google Sheets info box ────────────────────────────── */
-  .config-box {
-    background: var(--milk); border: 1px dashed var(--border);
-    border-radius: var(--radius); padding: 14px 16px;
-    font-size: 12px; color: var(--muted); line-height: 1.6;
-  }
-  .config-box strong { color: var(--mahogany); }
-  .config-box code {
-    background: var(--cream); padding: 2px 6px;
-    border-radius: 4px; font-size: 11px; color: var(--roast);
-  }
+@media (max-width: 480px) {
+  .kpi-value { font-size: 18px; }
+  .kpi-label { font-size: 9px; }
+  .filter-tabs { gap: 4px; }
+  .tab { padding: 4px 10px; font-size: 11px; }
+}
 </style>
 </head>
 <body>
 
-<!-- Loading -->
-<div class="loading-screen" id="loading">
-  <div class="loading-cup">☕</div>
-  <div class="loading-text">Cargando stock...</div>
-</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-<!-- Header -->
-<header>
-  <div class="header-top">
-    <div class="brand">
-      <div class="brand-icon">☕</div>
-      <div>
-        <div class="brand-name">La Bolsa de Café</div>
-        <div class="brand-sub">Control de Stock</div>
+<div class="layout">
+
+  <!-- ── Sidebar ─────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">☕</div>
+      <div class="logo-name">La Bolsa de Café</div>
+      <div class="logo-sub">Olivos · Buenos Aires</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" onclick="showView('dashboard')">
+        <span class="nav-icon">▦</span> Panel General
+      </button>
+      <button class="nav-item" onclick="showView('inventario')">
+        <span class="nav-icon">◫</span> Inventario
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sync-status">
+        <div class="sync-dot live" id="syncDot"></div>
+        <div class="sync-text" id="syncText">Conectando...</div>
+        <button class="sync-refresh" id="syncBtn" onclick="loadData()" title="Actualizar">↻</button>
       </div>
     </div>
-    <button class="refresh-btn" id="refreshBtn" onclick="loadData()" title="Actualizar">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/>
-      </svg>
-    </button>
-  </div>
-  <div class="header-meta">
-    <div class="dot live" id="statusDot"></div>
-    <span id="headerDate">Cargando...</span>
-  </div>
-</header>
+  </aside>
 
-<main id="mainContent">
-  <div class="error-banner" id="errorBanner">
-    No se pudo cargar el stock. Verificá tu conexión e intentá de nuevo.
-  </div>
-</main>
+  <!-- ── Main ────────────────────────────────────── -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" onclick="openSidebar()">☰</button>
+        <h1 class="page-title" id="pageTitle">Panel General</h1>
+        <div class="date-badge" id="dateBadge">—</div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- ── VIEW: DASHBOARD ───────────────────── -->
+      <div id="view-dashboard">
+
+        <!-- KPIs -->
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-label">Productos</div>
+            <div class="kpi-value" id="kpi-total">—</div>
+            <div class="kpi-sub">en seguimiento</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Alertas críticas</div>
+            <div class="kpi-value crit" id="kpi-criticos">—</div>
+            <div class="kpi-sub" id="kpi-criticos-sub">productos</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Stock bajo</div>
+            <div class="kpi-value" id="kpi-bajos">—</div>
+            <div class="kpi-sub">cerca del mínimo</div>
+          </div>
+        </div>
+
+        <!-- Alerts strip -->
+        <div class="alerts-strip" id="alertsStrip"></div>
+
+        <!-- Quick inventory -->
+        <div class="section-head">
+          <div class="section-title">Stock actual</div>
+          <div class="filter-tabs" id="filterTabs">
+            <button class="tab active" data-cat="TODOS" onclick="setFilter('TODOS', this)">Todos</button>
+            <button class="tab" data-cat="CAFE" onclick="setFilter('CAFE', this)">Cafés</button>
+            <button class="tab" data-cat="CAPSULA" onclick="setFilter('CAPSULA', this)">Cápsulas</button>
+            <button class="tab" data-cat="TE" onclick="setFilter('TE', this)">Tés</button>
+          </div>
+        </div>
+
+        <div class="inv-table">
+          <div class="inv-row header">
+            <div class="col-label">Producto</div>
+            <div class="col-label" style="text-align:right">Stock</div>
+            <div class="col-label" style="padding:0 8px">Nivel</div>
+            <div class="col-label">Estado</div>
+          </div>
+          <div id="invRows"></div>
+        </div>
+
+      </div><!-- /dashboard -->
+
+      <!-- ── VIEW: INVENTARIO ──────────────────── -->
+      <div id="view-inventario" style="display:none">
+        <div class="section-head">
+          <div class="section-title">Inventario completo</div>
+          <div class="filter-tabs" id="filterTabs2">
+            <button class="tab active" data-cat="TODOS" onclick="setFilter2('TODOS', this)">Todos</button>
+            <button class="tab" data-cat="CAFE" onclick="setFilter2('CAFE', this)">Cafés</button>
+            <button class="tab" data-cat="CAPSULA" onclick="setFilter2('CAPSULA', this)">Cápsulas</button>
+            <button class="tab" data-cat="TE" onclick="setFilter2('TE', this)">Tés</button>
+          </div>
+        </div>
+        <div class="inv-table">
+          <div class="inv-row header">
+            <div class="col-label">Producto</div>
+            <div class="col-label" style="text-align:right">Stock actual</div>
+            <div class="col-label" style="padding:0 8px">Nivel</div>
+            <div class="col-label">Estado</div>
+          </div>
+          <div id="invRows2"></div>
+        </div>
+      </div><!-- /inventario -->
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /layout -->
 
 <script>
-// ══════════════════════════════════════════════════════════════════
-// CONFIGURACIÓN — Reemplazar con la URL real de Google Sheets
-// ══════════════════════════════════════════════════════════════════
-// Para conectar con Google Sheets:
-// 1. Publicar la hoja ALERTAS_GENERADAS como CSV:
-//    Archivo → Compartir → Publicar en la web → elegir hoja → CSV → Publicar
-// 2. Reemplazar SHEET_CSV_URL con la URL obtenida
-// 3. El formato de la hoja debe tener columnas:
-//    SKU | Nombre_Producto | Tipo_Producto | Stock_Actual | Stock_Minimo | Stock_Objetivo | Estado
-
+// ══════════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════════
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRffHwJ6ENflfqZ54m0ehIjqAaJt5X-5-WCByHPuknvCzdbENe7hxMkL1DI2XWunZArFdmaDLg27VGE/pub?gid=1435082045&single=true&output=csv";
-const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // actualizar cada 5 minutos
+const REFRESH_MS = 5 * 60 * 1000;
 
-// ══════════════════════════════════════════════════════════════════
-// DATOS DE DEMO — Se usan cuando no hay URL de Sheets configurada
-// ══════════════════════════════════════════════════════════════════
-const DEMO_DATA = {
-  fecha: "25/02/2026",
-  ultimaActualizacion: new Date().toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'}),
-  productos: [
-    // Cafés
-    { sku:"BARISTA",    nombre:"Barista",        tipo:"Café",    stockActual:17.8,  stockMin:4,    stockObj:15,   unidad:"kg",  emoji:"☕" },
-    { sku:"MINKA",      nombre:"Minka",          tipo:"Café",    stockActual:0.68,  stockMin:1,    stockObj:6,    unidad:"kg",  emoji:"☕" },
-    { sku:"SCEGLIERE",  nombre:"Scegliere",      tipo:"Café",    stockActual:1.25,  stockMin:0.75, stockObj:2.5,  unidad:"kg",  emoji:"☕" },
-    { sku:"BRASIL",     nombre:"Brasil",         tipo:"Café",    stockActual:0.98,  stockMin:0.75, stockObj:3,    unidad:"kg",  emoji:"☕" },
-    { sku:"COLOMBIA",   nombre:"Colombia",       tipo:"Café",    stockActual:1.21,  stockMin:0.75, stockObj:5,    unidad:"kg",  emoji:"☕" },
-    { sku:"DESCAF",     nombre:"Descafeinado",   tipo:"Café",    stockActual:0.46,  stockMin:0.5,  stockObj:3,    unidad:"kg",  emoji:"☕" },
-    // Cápsulas
-    { sku:"CAPS_BAR",   nombre:"Cáp. Barista",   tipo:"Cápsula", stockActual:4,     stockMin:5,    stockObj:100,  unidad:"u",   emoji:"⚫" },
-    { sku:"CAPS_SCEGL", nombre:"Cáp. Scegliere", tipo:"Cápsula", stockActual:5,     stockMin:5,    stockObj:100,  unidad:"u",   emoji:"⚫" },
-    { sku:"CAPS_COL",   nombre:"Cáp. Colombia",  tipo:"Cápsula", stockActual:6,     stockMin:5,    stockObj:100,  unidad:"u",   emoji:"⚫" },
-    { sku:"CAPS_MINKA", nombre:"Cáp. Minka",     tipo:"Cápsula", stockActual:5,     stockMin:5,    stockObj:100,  unidad:"u",   emoji:"⚫" },
-    // Tés
-    { sku:"TE_BOSTON",  nombre:"Te Boston",      tipo:"Té",      stockActual:52,    stockMin:20,   stockObj:100,  unidad:"u",   emoji:"🫖" },
-    { sku:"TE_BOLDO",   nombre:"Te Boldo",       tipo:"Té",      stockActual:100,   stockMin:20,   stockObj:100,  unidad:"u",   emoji:"🫖" },
-    { sku:"TE_VERDE",   nombre:"Te Verde",       tipo:"Té",      stockActual:35,    stockMin:20,   stockObj:100,  unidad:"u",   emoji:"🫖" },
-    { sku:"TE_CACHAMAI",nombre:"Te Cachamai",    tipo:"Té",      stockActual:56,    stockMin:20,   stockObj:100,  unidad:"u",   emoji:"🫖" },
-    { sku:"TE_NATURA",  nombre:"Te Natura",      tipo:"Té",      stockActual:70,    stockMin:20,   stockObj:100,  unidad:"u",   emoji:"🫖" },
-  ],
-  recomendaciones: [
-    { nombre:"Café Barista",       cantidad:"No requiere",  detalle:"" },
-    { nombre:"Café Minka",         cantidad:"5.3 kg",       detalle:"22 bolsas" },
-    { nombre:"Café Scegliere",     cantidad:"1.3 kg",       detalle:"6 bolsas" },
-    { nombre:"Café Brasil",        cantidad:"2.0 kg",       detalle:"8 bolsas" },
-    { nombre:"Café Colombia",      cantidad:"3.8 kg",       detalle:"16 bolsas" },
-    { nombre:"Café Descafeinado",  cantidad:"2.5 kg",       detalle:"10 bolsas" },
-    { nombre:"Cáps. Barista",      cantidad:"96 u",         detalle:"10 cajas" },
-    { nombre:"Cáps. Scegliere",    cantidad:"95 u",         detalle:"10 cajas" },
-    { nombre:"Cáps. Colombia",     cantidad:"94 u",         detalle:"10 cajas" },
-    { nombre:"Cáps. Minka",        cantidad:"95 u",         detalle:"10 cajas" },
-  ]
-};
+// ── State ──────────────────────────────────────────────
+let allProducts = [];
+let currentFilter = 'TODOS';
+let currentFilter2 = 'TODOS';
 
-// ══════════════════════════════════════════════════════════════════
-// UTILIDADES
-// ══════════════════════════════════════════════════════════════════
-function getEstado(actual, min, obj) {
-  if (actual <= min) return "critico";
-  if (actual <= min * 1.5) return "bajo";
-  return "ok";
+// ── Sidebar ────────────────────────────────────────────
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
 }
 
-function getBarPct(actual, obj) {
-  return Math.min(100, Math.round((actual / obj) * 100));
+// ── Views ──────────────────────────────────────────────
+function showView(name) {
+  ['dashboard','inventario'].forEach(v => {
+    document.getElementById('view-' + v).style.display = v === name ? '' : 'none';
+  });
+  document.querySelectorAll('.nav-item').forEach((btn, i) => {
+    btn.classList.toggle('active', ['dashboard','inventario'][i] === name);
+  });
+  const titles = { dashboard: 'Panel General', inventario: 'Inventario' };
+  document.getElementById('pageTitle').textContent = titles[name];
+  closeSidebar();
+  if (name === 'inventario') renderInv2();
 }
 
-function fmtStock(val, unit) {
-  if (unit === "kg") {
-    return val < 1 ? `${(val*1000).toFixed(0)}` : `${val.toFixed(1)}`;
-  }
-  return val.toFixed(0);
+// ── Filters ────────────────────────────────────────────
+function setFilter(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('#filterTabs .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderInv();
+}
+function setFilter2(cat, btn) {
+  currentFilter2 = cat;
+  document.querySelectorAll('#filterTabs2 .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderInv2();
 }
 
-function fmtUnit(val, unit) {
-  if (unit === "kg") return val < 1 ? "g" : "kg";
-  return unit;
-}
-
-function staggerDelay(i) {
-  return `animation-delay: ${i * 0.04}s`;
-}
-
-// ══════════════════════════════════════════════════════════════════
-// PARSEAR CSV DE GOOGLE SHEETS
-// ══════════════════════════════════════════════════════════════════
+// ── Parse ──────────────────────────────────────────────
 function parseCSV(csv) {
-  const lines = csv.trim().split("\n");
-  const headers = lines[0].split(",").map(h => h.trim().replace(/"/g,''));
+  const lines = csv.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
   return lines.slice(1).map(line => {
-    // Split respetando comas dentro de comillas
-    const vals = [];
-    let cur = '', inQ = false;
+    const vals = []; let cur = '', inQ = false;
     for (const ch of line) {
       if (ch === '"') { inQ = !inQ; }
       else if (ch === ',' && !inQ) { vals.push(cur.trim()); cur = ''; }
-      else { cur += ch; }
+      else cur += ch;
     }
     vals.push(cur.trim());
     const obj = {};
-    headers.forEach((h, i) => obj[h] = (vals[i] || "").replace(/"/g,''));
+    headers.forEach((h, i) => obj[h] = (vals[i] || '').replace(/"/g, ''));
     return obj;
   }).filter(r => r.SKU && r.SKU.trim() !== '');
 }
 
 function inferTipo(sku) {
-  if (sku.startsWith("CAPS_")) return "CAPSULA";
-  if (sku.startsWith("TE_"))   return "TE";
-  return "CAFE";
+  if (sku.startsWith('CAPS_')) return 'CAPSULA';
+  if (sku.startsWith('TE_'))   return 'TE';
+  return 'CAFE';
 }
 
-function parseEstado(estadoStr) {
-  const s = estadoStr.toUpperCase();
-  if (s.includes("CRITICO") || s.includes("CRÍTICO")) return "critico";
-  if (s.includes("BAJO"))    return "bajo";
-  return "ok";
+function parseEstado(s) {
+  const u = (s || '').toUpperCase();
+  if (u.includes('CRITICO') || u.includes('CRÍTICO')) return 'critico';
+  if (u.includes('BAJO')) return 'bajo';
+  return 'ok';
 }
 
-function sheetsToProductos(rows) {
-  return rows.map(r => {
-    const tipo   = inferTipo(r.SKU || "");
-    const emoji  = tipo === "CAFE" ? "☕" : tipo === "CAPSULA" ? "⚫" : "🫖";
-    const unidad = tipo === "CAFE" ? "kg" : "u";
-
-    // Stock en gramos para cafés → convertir a kg
-    let stockActual = parseFloat((r.Stock_Actual || "0").replace(",",".")) || 0;
-    let stockMin    = parseFloat((r.Stock_Minimo  || "0").replace(",",".")) || 0;
-    if (tipo === "CAFE") { stockActual = stockActual / 1000; stockMin = stockMin / 1000; }
-
-    // Stock objetivo no está en la hoja → mínimo * 3
-    const stockObj = Math.max(stockMin * 3, 0.01);
-
-    // Estado directo de la columna (tiene emojis, parseamos el texto)
-    const estado = parseEstado(r.Estado || "");
-
-    const nombre = (r.Nombre_Producto || r.SKU || "").trim();
-
-    return { sku: r.SKU, nombre, tipo, stockActual, stockMin, stockObj, unidad, emoji, estado };
-  });
+function rowToProduct(r) {
+  const tipo = inferTipo(r.SKU);
+  const emoji = tipo === 'CAFE' ? '☕' : tipo === 'CAPSULA' ? '⚫' : '🫖';
+  const unidad = tipo === 'CAFE' ? 'kg' : 'u';
+  let stockActual = parseFloat((r.Stock_Actual || '0').replace(',', '.')) || 0;
+  let stockMin    = parseFloat((r.Stock_Minimo  || '0').replace(',', '.')) || 0;
+  if (tipo === 'CAFE') { stockActual /= 1000; stockMin /= 1000; }
+  const stockObj = Math.max(stockMin * 3, 0.01);
+  const estado = parseEstado(r.Estado);
+  return {
+    sku: r.SKU,
+    nombre: (r.Nombre_Producto || r.SKU).trim(),
+    tipo, emoji, unidad, stockActual, stockMin, stockObj, estado
+  };
 }
 
-// ══════════════════════════════════════════════════════════════════
-// RENDER
-// ══════════════════════════════════════════════════════════════════
-function renderDashboard(data) {
-  const container = document.getElementById('mainContent');
-  container.innerHTML = '';
+// ── Render helpers ─────────────────────────────────────
+function fmtStock(val, unit) {
+  if (unit === 'kg') return val < 1 ? (val * 1000).toFixed(0) : val.toFixed(2);
+  return val.toFixed(0);
+}
+function fmtUnit(val, unit) {
+  return unit === 'kg' ? (val < 1 ? 'g' : 'kg') : unit;
+}
+function barPct(actual, obj) {
+  return Math.min(100, Math.round((actual / obj) * 100));
+}
+function estadoLabel(e) {
+  return { ok: 'OK', bajo: 'Bajo', critico: 'Crítico' }[e] || e;
+}
 
-  // ── Alertas críticas ─────────────────────────────────────
-  // Usar el estado directo del objeto (viene de Sheets o calculado)
-  const criticos = data.productos.filter(p => (p.estado || getEstado(p.stockActual, p.stockMin, p.stockObj)) === "critico");
-  const bajos    = data.productos.filter(p => (p.estado || getEstado(p.stockActual, p.stockMin, p.stockObj)) === "bajo");
+function makeRow(p, delay) {
+  const pct = barPct(p.stockActual, p.stockObj);
+  const val = fmtStock(p.stockActual, p.unidad);
+  const unit = fmtUnit(p.stockActual, p.unidad);
+  const minStr = p.unidad === 'kg'
+    ? (p.stockMin < 1 ? `${(p.stockMin*1000).toFixed(0)}g` : `${p.stockMin.toFixed(2)}kg`)
+    : `${p.stockMin.toFixed(0)} ${p.unidad}`;
 
-  if (criticos.length > 0 || bajos.length > 0) {
-    const sec = document.createElement('div');
-    sec.className = 'alerts-section';
-
-    criticos.forEach(p => {
-      const def = p.stockMin - p.stockActual;
-      const defStr = p.unidad === 'kg'
-        ? (def < 0.1 ? `${(def*1000).toFixed(0)}g` : `${def.toFixed(2)}kg`)
-        : `${def.toFixed(0)} ${p.unidad}`;
-      sec.innerHTML += `
-        <div class="alert-banner critico">
-          <div class="alert-icon">⚠️</div>
-          <div class="alert-content">
-            <div class="alert-title">Stock crítico: ${p.nombre}</div>
-            <div class="alert-desc">Faltan ${defStr} para el mínimo · Hacer pedido urgente</div>
-          </div>
-        </div>`;
-    });
-
-    bajos.forEach(p => {
-      sec.innerHTML += `
-        <div class="alert-banner bajo">
-          <div class="alert-icon">⚡</div>
-          <div class="alert-content">
-            <div class="alert-title">Stock bajo: ${p.nombre}</div>
-            <div class="alert-desc">Cerca del mínimo · Incluir en próximo pedido</div>
-          </div>
-        </div>`;
-    });
-    container.appendChild(sec);
-  }
-
-  // ── Productos por tipo ───────────────────────────────────
-  const tipos = [...new Set(data.productos.map(p => p.tipo))];
-  const tipoLabels = { CAFE:"Cafés", CAPSULA:"Cápsulas", TE:"Tés", undefined:"Otros" };
-  const tipoEmojis = { CAFE:"☕", CAPSULA:"⚫", TE:"🫖" };
-
-  let cardIdx = 0;
-  tipos.forEach(tipo => {
-    const prods = data.productos.filter(p => p.tipo === tipo);
-    if (!prods.length) return;
-
-    const label = document.createElement('div');
-    label.className = 'section-label';
-    label.textContent = tipoLabels[tipo] || tipo;
-    container.appendChild(label);
-
-    const grid = document.createElement('div');
-    grid.className = 'product-grid';
-
-    prods.forEach(p => {
-      const estado = p.estado || getEstado(p.stockActual, p.stockMin, p.stockObj);
-      const pct    = getBarPct(p.stockActual, p.stockObj);
-      const val    = fmtStock(p.stockActual, p.unidad);
-      const unit   = fmtUnit(p.stockActual, p.unidad);
-      const minStr = p.unidad === 'kg'
-        ? (p.stockMin < 1 ? `${(p.stockMin*1000).toFixed(0)}g` : `${p.stockMin}kg`)
-        : `${p.stockMin} ${p.unidad}`;
-      const estadoLabel = { ok:"OK", bajo:"Bajo", critico:"Crítico" }[estado];
-
-      const card = document.createElement('div');
-      card.className = `product-card ${estado}`;
-      card.style.cssText = staggerDelay(cardIdx++);
-      card.innerHTML = `
-        <div class="card-top">
-          <div class="product-info">
-            <div class="product-emoji">${p.emoji}</div>
-            <div>
-              <div class="product-name">${p.nombre}</div>
-              <div class="product-type">${tipoLabels[tipo] || tipo}</div>
-            </div>
-          </div>
-          <div class="stock-value">
-            <div class="stock-num ${estado}">${val}</div>
-            <div class="stock-unit">${unit}</div>
-          </div>
-        </div>
-        <div class="bar-track">
-          <div class="bar-fill ${estado}" style="width:${pct}%"></div>
-        </div>
-        <div class="card-footer">
-          <span class="status-badge ${estado}">${estadoLabel}</span>
-          <span class="min-label">Mínimo: ${minStr}</span>
-        </div>`;
-      grid.appendChild(card);
-    });
-    container.appendChild(grid);
-  });
-
-  // ── Recomendación de pedido ──────────────────────────────
-  if (data.recomendaciones && data.recomendaciones.length > 0) {
-    const label2 = document.createElement('div');
-    label2.className = 'section-label';
-    label2.textContent = 'Próximo pedido';
-    container.appendChild(label2);
-
-    const pedCard = document.createElement('div');
-    pedCard.className = 'pedido-card';
-    pedCard.id = 'pedidoCard';
-
-    const recsConCantidad = data.recomendaciones.filter(r => r.cantidad && r.cantidad !== "No requiere");
-    const proxEntrega = getNextDelivery();
-
-    let rowsHTML = recsConCantidad.map(r => `
-      <div class="pedido-row">
+  return `
+    <div class="inv-row" style="animation-delay:${delay}s">
+      <div class="prod-info">
+        <div class="prod-icon">${p.emoji}</div>
         <div>
-          <div class="pedido-row-name">${r.nombre}</div>
-          ${r.detalle ? `<div class="pedido-row-detail">${r.detalle}</div>` : ''}
+          <div class="prod-name">${p.nombre}</div>
+          <div class="prod-sku">${p.sku}</div>
         </div>
-        <div class="pedido-row-qty">${r.cantidad}</div>
-      </div>`).join('');
-
-    if (!rowsHTML) {
-      rowsHTML = `<div class="pedido-row"><div class="pedido-row-name" style="color:var(--ok)">✅ Todo en buen stock. No se requiere pedido ahora.</div></div>`;
-    }
-
-    pedCard.innerHTML = `
-      <div class="pedido-header" onclick="togglePedido()">
-        <div class="pedido-header-left">
-          <div class="pedido-header-icon">📦</div>
-          <div>
-            <div class="pedido-title">Recomendación de pedido</div>
-            <div class="pedido-subtitle">Entrega estimada: ${proxEntrega}</div>
-          </div>
-        </div>
-        <div class="pedido-chevron">▼</div>
       </div>
-      <div class="pedido-body">${rowsHTML}</div>`;
-    container.appendChild(pedCard);
-  }
-
-  // ── Footer ───────────────────────────────────────────────
-  const footer = document.createElement('div');
-  footer.className = 'last-update';
-  const isDemo = !SHEET_CSV_URL;
-  footer.innerHTML = isDemo
-    ? `<span>⚠️ Modo demo · <a href="#config" style="color:var(--caramel)">Conectar Google Sheets</a></span>`
-    : `<span>Actualizado: ${data.ultimaActualizacion} · Datos: ${data.fecha}</span>`;
-  container.appendChild(footer);
-
-  if (isDemo) {
-    const configBox = document.createElement('div');
-    configBox.className = 'config-box';
-    configBox.innerHTML = `
-      <strong>Para conectar con tus datos reales:</strong><br><br>
-      1. En Google Sheets → <strong>Archivo → Compartir → Publicar en la web</strong><br>
-      2. Seleccioná la hoja <code>ALERTAS_GENERADAS</code> → formato <code>CSV</code> → Publicar<br>
-      3. Copiá la URL y pegala en la variable <code>SHEET_CSV_URL</code> al inicio del código<br><br>
-      <strong>Columnas requeridas:</strong> SKU, Nombre_Producto, Tipo_Producto, Stock_Actual, Stock_Minimo, Stock_Objetivo, Estado
-    `;
-    container.appendChild(configBox);
-  }
-
-  // Update header
-  document.getElementById('headerDate').textContent = `${data.fecha} · Día registrado: ${data.fecha}`;
+      <div class="stock-val col-stock">
+        ${val}<span class="unit">${unit}</span>
+      </div>
+      <div class="bar-wrap col-bar">
+        <div class="bar-track">
+          <div class="bar-fill ${p.estado}" style="width:${pct}%"></div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px">Mín: ${minStr}</div>
+      </div>
+      <div class="col-badge">
+        <span class="badge ${p.estado}">${estadoLabel(p.estado)}</span>
+      </div>
+    </div>`;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════════════════════════════
-function getNextDelivery() {
-  const today = new Date();
-  const day = today.getDay(); // 0=dom, 1=lun, ..., 4=jue, 5=vie
-  // Pedidos lunes y jueves → entregan martes y viernes
-  let daysUntil;
-  if (day <= 1) daysUntil = 2 - day;       // martes
-  else if (day <= 4) daysUntil = 5 - day;  // viernes
-  else daysUntil = 9 - day;                // próximo martes
-  const delivery = new Date(today);
-  delivery.setDate(today.getDate() + daysUntil);
-  return delivery.toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'short' });
+// ── Render views ───────────────────────────────────────
+function renderInv() {
+  const filtered = currentFilter === 'TODOS'
+    ? allProducts
+    : allProducts.filter(p => p.tipo === currentFilter);
+  const html = filtered.length
+    ? filtered.map((p, i) => makeRow(p, i * 0.04)).join('')
+    : '<div class="empty">No hay productos en esta categoría.</div>';
+  document.getElementById('invRows').innerHTML = html;
 }
 
-function togglePedido() {
-  const card = document.getElementById('pedidoCard');
-  if (card) card.classList.toggle('open');
+function renderInv2() {
+  const filtered = currentFilter2 === 'TODOS'
+    ? allProducts
+    : allProducts.filter(p => p.tipo === currentFilter2);
+  const html = filtered.length
+    ? filtered.map((p, i) => makeRow(p, i * 0.04)).join('')
+    : '<div class="empty">No hay productos en esta categoría.</div>';
+  document.getElementById('invRows2').innerHTML = html;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// CARGA DE DATOS
-// ══════════════════════════════════════════════════════════════════
+function renderAlerts() {
+  const criticos = allProducts.filter(p => p.estado === 'critico');
+  const bajos    = allProducts.filter(p => p.estado === 'bajo');
+  let html = '';
+  criticos.forEach(p => {
+    const def = Math.max(0, p.stockMin - p.stockActual);
+    const defStr = p.unidad === 'kg'
+      ? (def < 0.1 ? `${(def*1000).toFixed(0)}g` : `${def.toFixed(2)}kg`)
+      : `${def.toFixed(0)} ${p.unidad}`;
+    html += `<div class="alert-item critico">
+      <span class="alert-emoji">⚠️</span>
+      <span class="alert-text"><strong>${p.nombre}</strong> — Faltan ${defStr} para el mínimo · Hacer pedido urgente</span>
+    </div>`;
+  });
+  bajos.forEach(p => {
+    html += `<div class="alert-item bajo">
+      <span class="alert-emoji">⚡</span>
+      <span class="alert-text"><strong>${p.nombre}</strong> — Cerca del mínimo · Incluir en próximo pedido</span>
+    </div>`;
+  });
+  document.getElementById('alertsStrip').innerHTML = html;
+}
+
+function renderKPIs() {
+  const criticos = allProducts.filter(p => p.estado === 'critico').length;
+  const bajos    = allProducts.filter(p => p.estado === 'bajo').length;
+  document.getElementById('kpi-total').textContent     = allProducts.length;
+  document.getElementById('kpi-criticos').textContent  = criticos;
+  document.getElementById('kpi-bajos').textContent     = bajos;
+  document.getElementById('kpi-criticos-sub').textContent = criticos === 1 ? 'producto' : 'productos';
+  // Color KPI críticos
+  const el = document.getElementById('kpi-criticos');
+  el.className = 'kpi-value ' + (criticos > 0 ? 'crit' : 'ok');
+}
+
+// ── Load data ──────────────────────────────────────────
 async function loadData() {
-  const btn = document.getElementById('refreshBtn');
+  const btn = document.getElementById('syncBtn');
   btn.classList.add('spinning');
+  document.getElementById('syncText').textContent = 'Actualizando...';
 
   try {
-    if (SHEET_CSV_URL) {
-      // Fetch desde Google Sheets publicado como CSV
-      const resp = await fetch(SHEET_CSV_URL);
-      if (!resp.ok) throw new Error("Error al cargar Sheets");
-      const csv = await resp.text();
-      const rows = parseCSV(csv);
-      const productos = sheetsToProductos(rows);
-      renderDashboard({
-        fecha: new Date().toLocaleDateString('es-AR'),
-        ultimaActualizacion: new Date().toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'}),
-        productos,
-        recomendaciones: [] // La recomendación vendría de otra hoja
-      });
-    } else {
-      // Modo demo con datos hardcodeados
-      await new Promise(r => setTimeout(r, 600)); // simular latencia
-      renderDashboard(DEMO_DATA);
-    }
-    document.getElementById('errorBanner').classList.remove('show');
-    document.getElementById('statusDot').classList.add('live');
-  } catch(err) {
+    const resp = await fetch(SHEET_CSV_URL + '&t=' + Date.now());
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const csv = await resp.text();
+    const rows = parseCSV(csv);
+    allProducts = rows.map(rowToProduct);
+
+    renderKPIs();
+    renderAlerts();
+    renderInv();
+
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+    const dateStr = now.toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' });
+    document.getElementById('dateBadge').textContent = dateStr;
+    document.getElementById('syncText').textContent = 'Actualizado ' + timeStr;
+    document.getElementById('syncDot').classList.add('live');
+
+  } catch (err) {
     console.error(err);
-    document.getElementById('errorBanner').classList.add('show');
-    document.getElementById('statusDot').classList.remove('live');
+    document.getElementById('syncText').textContent = 'Error al conectar';
+    document.getElementById('syncDot').classList.remove('live');
   } finally {
     btn.classList.remove('spinning');
-    document.getElementById('loading').classList.add('hidden');
   }
 }
 
-// ══════════════════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════════════════
+// ── Init ───────────────────────────────────────────────
 loadData();
-setInterval(loadData, REFRESH_INTERVAL_MS);
+setInterval(loadData, REFRESH_MS);
 </script>
 </body>
 </html>
